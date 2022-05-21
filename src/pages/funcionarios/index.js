@@ -50,7 +50,17 @@ function Home() {
       data_nascimento: handleDate(data_nascimento),
       email
     }
-    setDados(dados, setShowModal(true))
+
+    setDados(dados, getLinguagem(id, (res) => {
+      if (res !== []) {
+        console.log(res)
+        setLinguagem(res)
+        setShowModal(true)
+      } else {
+        setLinguagem([])
+        setShowModal(true)
+      }
+    }))
   }
 
   return (
@@ -93,8 +103,8 @@ function Home() {
           })}
         </tbody>
       </Table>
+      <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem} idFunc={id}></ModalFormFunc>
       <ModalDetalhes showModal={showDetails} setShowModal={setShowDetails} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem}></ModalDetalhes>
-      <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem}></ModalFormFunc>
       <Alert isFunc={true} id={ids} showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList}></Alert>
     </div>
   );

@@ -30,3 +30,8 @@ export const atualizarStartup = (data) => {
   axiosInstance.put('update-startups', data).then((res) => {
   }).catch((err) => { console.log(err) })
 }
+
+export const adicionarLinguagemProgramador = (ids) => {
+  axiosInstance.post('create-linguagem-programador', ids).then((res) => {
+  }).catch((err) => { console.log(err) })
+}

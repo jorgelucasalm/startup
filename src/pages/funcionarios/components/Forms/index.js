@@ -3,13 +3,13 @@ import { Form, FormLabel, FormControl, FormGroup, FormSelect } from 'react-boots
 import { getAllLinguagem } from '../../../../service/serviceFuncionario';
 
 const FormsFunc = ({ nome, setNome, genero, setGenero, dataNasc, setDataNasc, email, setEmail, disabled, linguagem, setLinguagem }) => {
-  const [ling, setLing] = useState('')
+  const [ling, setLing] = useState()
   const [allLing, setAllLing] = useState([])
 
   useEffect(() => {
     getAllLinguagem((res) => {
       setAllLing(res)
-      setLing(res[0].nome_linguagem)
+      setLing(res[0])
     })
   }, [])
 
@@ -34,24 +34,22 @@ const FormsFunc = ({ nome, setNome, genero, setGenero, dataNasc, setDataNasc, em
       <FormLabel>Linguagem</FormLabel>
       {disabled === undefined &&
         <>
-          <FormSelect type="email" placeholder="Informe o email" onChange={e => setLing(e.target.value)}>
-            {allLing.map((item) => { return <option value={item.nome_linguagem}>{item.nome_linguagem}</option> })}
+          <FormSelect type="email" placeholder="Informe o email" onChange={e => setLing(JSON.parse(e.target.value))}>
+            {allLing.map((item) => { return <option value={JSON.stringify(item)}>{item.nome_linguagem}</option> })}
           </FormSelect>
           <div>
             <button className='btn btn-primary my-3 h-100 w-100' onClick={(e) => {
               e.preventDefault()
-              console.log(ling)
               const filter = linguagem.find(element => element === ling);
               if (filter === undefined)
                 setLinguagem(linguagem => [...linguagem, ling])
-              console.log(linguagem)
             }}>+</button>
           </div>
         </>}
     </FormGroup>
     <div className='display-flex my-3'>
       {linguagem && linguagem.map((item) => {
-        return <span className="chip mb-2">{item}<i role="button" class="bi bi-x ms-2 " onClick={(e) => { }}></i></span>
+        return <span className="chip mb-2">{item.nome_linguagem ? item.nome_linguagem : item}</span>
       })}
     </div>
   </Form >

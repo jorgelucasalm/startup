@@ -20,7 +20,7 @@ const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados
   }
 
   useEffect(() => {
-    if (dados) {
+    if (dados && showModal) {
       setId(dados[0].id)
       setNome(dados[0].nome)
       setGenero(dados[0].genero)
@@ -37,6 +37,7 @@ const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados
       setGenero('')
       setDataNasc('')
       setEmail('')
+      setLinguagem([])
     }}>
       <ModalHeader closeButton>
         <ModalTitle>{'Detalhes'}</ModalTitle>

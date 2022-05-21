@@ -4,7 +4,7 @@ import Forms from '../Forms'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { atualizarFuncionario, criarFuncionario } from '../../../../service/serviceFuncionario'
 
-const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados, linguagem, setLinguagem }) => {
+const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados, linguagem, setLinguagem, idFunc }) => {
   const [nome, setNome] = useState('')
   const [genero, setGenero] = useState('')
   const [dataNasc, setDataNasc] = useState('')
@@ -24,7 +24,8 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
           data_nascimento: dataNasc,
           email
         }
-        atualizarFuncionario(data)
+        console.log('data', data, "Linguagens", linguagem)
+        // atualizarFuncionario(data)
         setShowModal(false)
         setUpdateList(true)
         setNome('')
@@ -33,22 +34,22 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
         setEmail('')
       } else {
         const data = {
-          id_s: id,
+          id_s: parseInt(id),
           nome,
           genero,
           data_nascimento: dataNasc,
           email,
-          linguagem
         }
+        // console.log(linguagem.id_linguagem, linguagem)
+        // adicionarLinguagemProgramador(linguagem)
+        criarFuncionario(data)
         setShowModal(false)
         setUpdateList(true)
-        console.log(data)
-        // criarFuncionario(data)
         setNome('')
         setGenero('')
         setDataNasc('')
         setEmail('')
-        setLinguagem([])
+        setNewLinguagem([])
       }
     }
   }
@@ -60,7 +61,7 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
       setGenero(dados.genero)
       setDataNasc(dados.data_nascimento)
       setEmail(dados.email)
-      setMsg('Editar startup ' + dados.nome)
+      setMsg('Editar ' + dados.nome)
     }
   }, [dados])
 
@@ -71,6 +72,7 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
       setGenero('')
       setDataNasc('')
       setEmail('')
+      setLinguagem([])
       setMsg('Adicionar nova Startup')
     }}>
       <ModalHeader closeButton>
@@ -86,8 +88,8 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
           setGenero={setGenero}
           setDataNasc={setDataNasc}
           setEmail={setEmail}
-          linguagem={newLinguagem}
-          setLinguagem={setNewLinguagem}
+          linguagem={linguagem}
+          setLinguagem={setLinguagem}
         />
       </ModalBody>
       <ModalFooter>
@@ -97,6 +99,7 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
           setGenero('')
           setDataNasc('')
           setEmail('')
+          setLinguagem([])
           setMsg('Adicionar nova Startup')
         }}>
           Cancelar
