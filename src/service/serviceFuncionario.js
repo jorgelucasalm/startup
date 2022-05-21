@@ -8,11 +8,8 @@ export const consultarFuncionario = (id, callback) => {
   }).catch((err) => { console.log(err) })
 }
 
-export const criarFuncionario = (id, callback) => {
-  axiosInstance.get('funcionario/' + id).then((res) => {
-    if (callback != null) {
-      callback(res.data)
-    }
+export const criarFuncionario = (data) => {
+  axiosInstance.post('create-funcionario', data).then((res) => {
   }).catch((err) => { console.log(err) })
 }
 
@@ -29,12 +26,12 @@ export const criarStartup = (data) => {
   }).catch((err) => { console.log(err) })
 }
 
-export const removerStartup = (id) => {
-  axiosInstance.delete('remove-startups/' + id).then((res) => {
+export const removerFuncionario = (id) => {
+  axiosInstance.delete('remove-programador/' + id).then((res) => {
   }).catch((err) => { console.log(err) })
 }
 
-export const atualizarStartup = (data) => {
-  axiosInstance.put('update-startups', data).then((res) => {
+export const atualizarFuncionario = (data) => {
+  axiosInstance.put('update-programador', data).then((res) => {
   }).catch((err) => { console.log(err) })
 }

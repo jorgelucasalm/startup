@@ -1,7 +1,8 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, ModalTitle } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import Forms from '../Forms'
-import { atualizarStartup, criarStartup } from '../../../../service/serviceStartup'
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { atualizarFuncionario, criarFuncionario } from '../../../../service/serviceFuncionario'
 
 const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados }) => {
   const [nome, setNome] = useState('')
@@ -9,48 +10,49 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
   const [genero, setGenero] = useState('')
   const [dataNasc, setDataNasc] = useState('')
   const [email, setEmail] = useState('')
+  const [idf, setIdf] = useState()
   const [msg, setMsg] = useState('Adicionar nova Startup')
-  const [id, setId] = useState(undefined)
+  const { id } = useParams()
 
   const validation = () => {
     if (nome !== '' && genero !== '' && dataNasc !== '' && email !== '') {
       if (dados) {
         const data = {
-          id,
+          id: idf,
           nome,
           genero,
           data_nascimento: dataNasc,
           email
         }
-        console.log(data)
-        // atualizarStartup(data)
-        // setShowModal(false)
-        // setUpdateList(true)
-        // setNome('')
-        // setSede('')
+        atualizarFuncionario(data)
+        setShowModal(false)
+        setUpdateList(true)
+        setNome('')
+        setGenero('')
+        setDataNasc('')
+        setEmail('')
       } else {
         const data = {
-          id,
+          id_s: id,
           nome,
           genero,
           data_nascimento: dataNasc,
           email
         }
-        console.log(data)
-        // setShowModal(false)
-        // setUpdateList(true)
-        // setId('')
-        // setNome('')
-        // setGenero('')
-        // setDataNasc('')
-        // setEmail('')
+        setShowModal(false)
+        setUpdateList(true)
+        criarFuncionario(data)
+        setNome('')
+        setGenero('')
+        setDataNasc('')
+        setEmail('')
       }
     }
   }
 
   useEffect(() => {
     if (dados) {
-      setId(dados.id)
+      setIdf(dados.id)
       setNome(dados.nome)
       setGenero(dados.genero)
       setDataNasc(dados.data_nascimento)
@@ -62,7 +64,6 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
   return (
     <Modal show={showModal} onHide={() => {
       setShowModal(false)
-      setId('')
       setNome('')
       setGenero('')
       setDataNasc('')
@@ -86,7 +87,6 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
       <ModalFooter>
         <Button variant='danger' onClick={() => {
           setShowModal(false)
-          setId('')
           setNome('')
           setGenero('')
           setDataNasc('')

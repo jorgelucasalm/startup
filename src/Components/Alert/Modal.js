@@ -1,14 +1,21 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, ModalTitle, Form, FormLabel, FormControl, FormGroup } from 'react-bootstrap'
 import React, { Component, useState } from 'react'
 import Forms from '../Forms'
-import { criarStartup, removerStartup } from '../../service/serviceStartup'
+import { removerStartup } from '../../service/serviceStartup'
+import { removerFuncionario } from '../../service/serviceFuncionario'
 
-const Alert = ({ showModal, setShowModal, id, setUpdateList }) => {
+const Alert = ({ showModal, setShowModal, id, setUpdateList, isFunc }) => {
 
   const remove = () => {
-    removerStartup(id)
-    setShowModal(false)
-    setUpdateList(true)
+    if (isFunc) {
+      removerFuncionario(id)
+      setShowModal(false)
+      setUpdateList(true)
+    } else {
+      removerStartup(id)
+      setShowModal(false)
+      setUpdateList(true)
+    }
   }
 
   return (

@@ -5,6 +5,7 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { consultarFuncionario } from '../../service/serviceFuncionario';
 import ModalFormFunc from './components/Modals';
 import ModalDetalhes from './components/ModalDetalhes';
+import Alert from '../../Components/Alert/Modal';
 
 function Home() {
   const [funcionarios, setFuncionarios] = useState([])
@@ -15,6 +16,8 @@ function Home() {
   const [showModal, setShowModal] = useState(false)
   const [updateList, setUpdateList] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [ids, setIds] = useState(false)
 
   useEffect(() => {
     consultarStartup(id, (res) => {
@@ -79,7 +82,10 @@ function Home() {
               <td className='d-flex justify-content-center'>
                 <button type="button" class="btn btn-primary" onClick={() => details(item.id_programador)}>Detalhes</button>
                 <button type="button" className="btn btn-warning mx-2" onClick={() => editar(item.id_programador, item.nome_programador, item.genero, item.data_nascimento, item.email)}>Alterar</button>
-                <button type="button" class="btn btn-danger">Excluir</button>
+                <button type="button" class="btn btn-danger" onClick={() => {
+                  setShowAlert(true)
+                  setIds(item.id_programador)
+                }}>Excluir</button>
               </td>
             </tr>
           })}
@@ -87,6 +93,7 @@ function Home() {
       </Table>
       <ModalDetalhes showModal={showDetails} setShowModal={setShowDetails} setUpdateList={setUpdateList} dados={dados} setDados={setDados}></ModalDetalhes>
       <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} ></ModalFormFunc>
+      <Alert isFunc={true} id={ids} showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList}></Alert>
     </div>
   );
 }
