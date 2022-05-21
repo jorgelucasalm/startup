@@ -2,28 +2,50 @@ import { Table } from 'react-bootstrap'
 import { useEffect, useState } from 'react';
 import { listarStartup } from '../../service/serviceStartup';
 import { Link } from 'react-router-dom';
+import ModalForm from '../../Components/Modals/Modal';
+import Alert from '../../Components/Alert/Modal';
 
 function Home() {
   const [statups, setStartups] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [updateList, setUpdateList] = useState(false)
+  const [id, setId] = useState(false)
+  const [dados, setDados] = useState(undefined)
 
   useEffect(() => {
     listarStartup((res) => {
       setStartups(res)
+      setUpdateList(false)
     })
-  }, [])
+    console.log(updateList)
+  }, [updateList])
 
-  console.log(statups)
+  const editar = (id, nome, sede) => {
+    const dados = {
+      id: id,
+      nome: nome,
+      sede: sede
+    }
+    setDados(dados, setShowModal(true))
+
+  }
 
   return (
     <div className="container">
-      <h1 className='my-3'>Listagem de Startup's</h1>
+      <header className="d-flex justify-content-between align-items-center">
+        <h1 className='my-3'>Listagem de Startup's</h1>
+        <div>
+          <button type="button" className="btn btn-primary" onClick={() => setShowModal(true)}>+</button>
+        </div>
+      </header >
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th class="w-25" >Sede</th>
-            <th class="w-25" >Detalhes</th>
+            <th className="w-25" >Sede</th>
+            <th className="w-25" >Detalhes</th>
           </tr>
         </thead>
         <tbody>
@@ -36,14 +58,19 @@ function Home() {
                 <Link to={"/startup/" + item.id_startup} state={item.nome_startup}>
                   <button type="button" class="btn btn-primary">Detalhes</button>
                 </Link>
-                <button type="button" class="btn btn-warning mx-2">Alterar</button>
-                <button type="button" class="btn btn-danger">Excluir</button>
+                <button type="button" className="btn btn-warning mx-2" onClick={() => editar(item.id_startup, item.nome_startup, item.cidade_sede)}>Alterar</button>
+                <button type="button" className="btn btn-danger" onClick={() => {
+                  setShowAlert(true)
+                  setId(item.id_startup)
+                }}>Excluir</button>
               </td>
             </tr>
           })}
         </tbody>
       </Table>
-    </div>
+      <ModalForm dados={dados} setDados={setDados} showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} />
+      <Alert showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList} id={id}></Alert>
+    </div >
   );
 }
 
