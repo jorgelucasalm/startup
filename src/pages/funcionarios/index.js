@@ -4,6 +4,7 @@ import { consultarStartup } from '../../service/serviceStartup';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { consultarFuncionario } from '../../service/serviceFuncionario';
 import ModalFormFunc from './components/Modals';
+import ModalDetalhes from './components/ModalDetalhes';
 
 function Home() {
   const [funcionarios, setFuncionarios] = useState([])
@@ -13,6 +14,7 @@ function Home() {
   const [dados, setDados] = useState()
   const [showModal, setShowModal] = useState(false)
   const [updateList, setUpdateList] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
 
   useEffect(() => {
     consultarStartup(id, (res) => {
@@ -23,7 +25,7 @@ function Home() {
 
   const details = (id) => {
     consultarFuncionario(id, (res) => { setDados(res) })
-    setShowModal(true)
+    setShowDetails(true)
   }
 
   const handleDate = (data) => {
@@ -83,6 +85,7 @@ function Home() {
           })}
         </tbody>
       </Table>
+      <ModalDetalhes showModal={showDetails} setShowModal={setShowDetails} setUpdateList={setUpdateList} dados={dados} setDados={setDados}></ModalDetalhes>
       <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} ></ModalFormFunc>
     </div>
   );

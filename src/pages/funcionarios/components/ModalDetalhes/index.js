@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Forms from '../Forms'
 import { atualizarStartup, criarStartup } from '../../../../service/serviceStartup'
 
-const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados }) => {
+const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados }) => {
   const [nome, setNome] = useState('')
   const [sede, setSede] = useState('')
   const [genero, setGenero] = useState('')
@@ -81,10 +81,11 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
           setNome={setNome}
           setGenero={setGenero}
           setDataNasc={setDataNasc}
-          setEmail={setEmail} />
+          setEmail={setEmail}
+          disabled={true} />
       </ModalBody>
     </Modal>
   )
 }
 
-export default ModalFormFunc
+export default ModalDetalhes

@@ -86,8 +86,11 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
       <ModalFooter>
         <Button variant='danger' onClick={() => {
           setShowModal(false)
+          setId('')
           setNome('')
-          setSede('')
+          setGenero('')
+          setDataNasc('')
+          setEmail('')
           setMsg('Adicionar nova Startup')
         }}>
           Cancelar
