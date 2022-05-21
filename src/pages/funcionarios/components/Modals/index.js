@@ -4,14 +4,14 @@ import Forms from '../Forms'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { atualizarFuncionario, criarFuncionario } from '../../../../service/serviceFuncionario'
 
-const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados }) => {
+const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados, linguagem, setLinguagem }) => {
   const [nome, setNome] = useState('')
-  const [sede, setSede] = useState('')
   const [genero, setGenero] = useState('')
   const [dataNasc, setDataNasc] = useState('')
   const [email, setEmail] = useState('')
   const [idf, setIdf] = useState()
   const [msg, setMsg] = useState('Adicionar nova Startup')
+  const [newLinguagem, setNewLinguagem] = useState([])
   const { id } = useParams()
 
   const validation = () => {
@@ -37,15 +37,18 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
           nome,
           genero,
           data_nascimento: dataNasc,
-          email
+          email,
+          linguagem
         }
         setShowModal(false)
         setUpdateList(true)
-        criarFuncionario(data)
+        console.log(data)
+        // criarFuncionario(data)
         setNome('')
         setGenero('')
         setDataNasc('')
         setEmail('')
+        setLinguagem([])
       }
     }
   }
@@ -82,7 +85,10 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
           setNome={setNome}
           setGenero={setGenero}
           setDataNasc={setDataNasc}
-          setEmail={setEmail} />
+          setEmail={setEmail}
+          linguagem={newLinguagem}
+          setLinguagem={setNewLinguagem}
+        />
       </ModalBody>
       <ModalFooter>
         <Button variant='danger' onClick={() => {

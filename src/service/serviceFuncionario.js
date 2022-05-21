@@ -35,3 +35,21 @@ export const atualizarFuncionario = (data) => {
   axiosInstance.put('update-programador', data).then((res) => {
   }).catch((err) => { console.log(err) })
 }
+
+export const getLinguagem = (id, callback) => {
+  axiosInstance.get('linguagem/' + id).then((res) => {
+    if (callback != null) {
+      callback(res.data)
+    }
+  }).catch((err) => { console.log(err) })
+}
+
+
+export const getAllLinguagem = (callback) => {
+  axiosInstance.get('listar-linguagem').then((res) => {
+    if (callback != null) {
+      console.log(res.data)
+      callback(res.data)
+    }
+  }).catch((err) => { console.log(err) })
+}

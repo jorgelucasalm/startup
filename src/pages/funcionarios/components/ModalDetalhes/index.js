@@ -3,59 +3,29 @@ import React, { useEffect, useState } from 'react'
 import Forms from '../Forms'
 import { atualizarStartup, criarStartup } from '../../../../service/serviceStartup'
 
-const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados }) => {
+const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados, linguagem, setLinguagem }) => {
   const [nome, setNome] = useState('')
-  const [sede, setSede] = useState('')
   const [genero, setGenero] = useState('')
   const [dataNasc, setDataNasc] = useState('')
   const [email, setEmail] = useState('')
-  const [msg, setMsg] = useState('Adicionar nova Startup')
   const [id, setId] = useState(undefined)
 
-  const validation = () => {
-    if (nome !== '' && genero !== '' && dataNasc !== '' && email !== '') {
-      if (dados) {
-        const data = {
-          id,
-          nome,
-          genero,
-          data_nascimento: dataNasc,
-          email
-        }
-        console.log(data)
-        // atualizarStartup(data)
-        // setShowModal(false)
-        // setUpdateList(true)
-        // setNome('')
-        // setSede('')
-      } else {
-        const data = {
-          id,
-          nome,
-          genero,
-          data_nascimento: dataNasc,
-          email
-        }
-        console.log(data)
-        // setShowModal(false)
-        // setUpdateList(true)
-        // setId('')
-        // setNome('')
-        // setGenero('')
-        // setDataNasc('')
-        // setEmail('')
-      }
-    }
+  const handleDate = (data) => {
+    const y = data.substring(0, 4)
+    const m = data.substring(5, 7)
+    const d = data.substring(8, 10)
+    // const newData = d + "/" + m + "/" + y
+    const newData = y + "-" + m + "-" + d
+    return newData
   }
 
   useEffect(() => {
     if (dados) {
-      setId(dados.id)
-      setNome(dados.nome)
-      setGenero(dados.genero)
-      setDataNasc(dados.data_nascimento)
-      setEmail(dados.email)
-      setMsg('Editar startup ' + dados.nome)
+      setId(dados[0].id)
+      setNome(dados[0].nome)
+      setGenero(dados[0].genero)
+      setDataNasc(handleDate(dados[0].data_nascimento))
+      setEmail(dados[0].email)
     }
   }, [dados])
 
@@ -67,10 +37,9 @@ const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados
       setGenero('')
       setDataNasc('')
       setEmail('')
-      setMsg('Adicionar nova Startup')
     }}>
       <ModalHeader closeButton>
-        <ModalTitle>{msg}</ModalTitle>
+        <ModalTitle>{'Detalhes'}</ModalTitle>
       </ModalHeader>
       <ModalBody>
         <Forms
@@ -82,6 +51,8 @@ const ModalDetalhes = ({ showModal, setShowModal, setUpdateList, dados, setDados
           setGenero={setGenero}
           setDataNasc={setDataNasc}
           setEmail={setEmail}
+          linguagem={linguagem}
+          setLinguagem={setLinguagem}
           disabled={true} />
       </ModalBody>
     </Modal>

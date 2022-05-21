@@ -18,7 +18,6 @@ function Home() {
       setStartups(res)
       setUpdateList(false)
     })
-    console.log(updateList)
   }, [updateList])
 
   const editar = (id, nome, sede) => {

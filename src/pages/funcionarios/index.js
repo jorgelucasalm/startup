@@ -2,13 +2,14 @@ import { Table } from 'react-bootstrap'
 import { useEffect, useState } from 'react';
 import { consultarStartup } from '../../service/serviceStartup';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { consultarFuncionario } from '../../service/serviceFuncionario';
+import { consultarFuncionario, getLinguagem } from '../../service/serviceFuncionario';
 import ModalFormFunc from './components/Modals';
 import ModalDetalhes from './components/ModalDetalhes';
 import Alert from '../../Components/Alert/Modal';
 
 function Home() {
   const [funcionarios, setFuncionarios] = useState([])
+  const [linguagem, setLinguagem] = useState([])
   const { id } = useParams()
   const history = useNavigate();
   const location = useLocation()
@@ -28,6 +29,7 @@ function Home() {
 
   const details = (id) => {
     consultarFuncionario(id, (res) => { setDados(res) })
+    getLinguagem(id, (res) => { setLinguagem(res) })
     setShowDetails(true)
   }
 
@@ -91,8 +93,8 @@ function Home() {
           })}
         </tbody>
       </Table>
-      <ModalDetalhes showModal={showDetails} setShowModal={setShowDetails} setUpdateList={setUpdateList} dados={dados} setDados={setDados}></ModalDetalhes>
-      <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} ></ModalFormFunc>
+      <ModalDetalhes showModal={showDetails} setShowModal={setShowDetails} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem}></ModalDetalhes>
+      <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem}></ModalFormFunc>
       <Alert isFunc={true} id={ids} showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList}></Alert>
     </div>
   );
