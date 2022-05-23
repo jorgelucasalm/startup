@@ -8,9 +8,12 @@ export const consultarFuncionario = (id, callback) => {
   }).catch((err) => { console.log(err) })
 }
 
-export const criarFuncionario = (data) => {
+export const criarFuncionario = (data, callback) => {
   axiosInstance.post('create-funcionario', data).then((res) => {
-  }).catch((err) => { console.log(err) })
+    if (callback != null) {
+      callback(res.data)
+    }
+  }).catch((err) => { callback(err.response.data) })
 }
 
 export const listarStartup = (callback) => {
@@ -18,11 +21,6 @@ export const listarStartup = (callback) => {
     if (callback != null) {
       callback(res.data)
     }
-  }).catch((err) => { console.log(err) })
-}
-
-export const criarStartup = (data) => {
-  axiosInstance.post('create-startups', data).then((res) => {
   }).catch((err) => { console.log(err) })
 }
 

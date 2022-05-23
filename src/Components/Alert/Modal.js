@@ -4,7 +4,7 @@ import Forms from '../Forms'
 import { removerStartup } from '../../service/serviceStartup'
 import { removerFuncionario } from '../../service/serviceFuncionario'
 
-const Alert = ({ showModal, setShowModal, id, setUpdateList, isFunc }) => {
+const Alert = ({ setModalPrev, text, showModal, setShowModal, id, setUpdateList, isFunc, isRemove }) => {
 
   const remove = () => {
     if (isFunc) {
@@ -19,18 +19,29 @@ const Alert = ({ showModal, setShowModal, id, setUpdateList, isFunc }) => {
   }
 
   return (
-    <Modal show={showModal} onHide={() => setShowModal(false)}>
+    <Modal show={showModal} onHide={() => setShowModal(false)} id="alert">
       <ModalHeader closeButton>
-        <ModalTitle>Deseja remover a Startup tal?</ModalTitle>
+        <ModalTitle>{text}</ModalTitle>
       </ModalHeader>
-      <ModalFooter>
-        <Button variant="primary" onClick={() => setShowModal(false)}>
+      {isRemove ? <ModalFooter>
+        <Button variant="primary" onClick={() => {
+          setShowModal(false)
+          setModalPrev(true)
+        }}>
           Cancelar
         </Button>
         <Button variant="danger" onClick={remove}>
           Remover
         </Button>
-      </ModalFooter>
+      </ModalFooter> :
+        <ModalFooter>
+          <Button variant="primary" onClick={() => {
+            setShowModal(false)
+            setModalPrev(true)
+          }}>
+            Ok
+          </Button>
+        </ModalFooter>}
     </Modal>
   )
 }

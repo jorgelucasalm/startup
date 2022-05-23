@@ -44,15 +44,21 @@ function Home() {
             <th>ID</th>
             <th>Nome</th>
             <th className="w-25" >Sede</th>
+            <th className="w-25" >Funcionarios</th>
             <th className="w-25" >Detalhes</th>
           </tr>
         </thead>
         <tbody>
           {statups.map((item) => {
+            var func = []
+            if (item.nome_programadores)
+              func = item.nome_programadores.split(",")
+            console.log(func)
             return <tr>
               <td>{item.id_startup}</td>
               <td>{item.nome_startup}</td>
               <td>{item.cidade_sede}</td>
+              <td className='gap'>{func !== [] ? func.map((item) => { return <span className='chip home'>{item}</span> }) : ''}</td>
               <td className='d-flex justify-content-center'>
                 <Link to={"/startup/" + item.id_startup} state={item.nome_startup}>
                   <button type="button" class="btn btn-primary">Detalhes</button>
@@ -68,7 +74,7 @@ function Home() {
         </tbody>
       </Table>
       <ModalForm dados={dados} setDados={setDados} showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} />
-      <Alert showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList} id={id}></Alert>
+      <Alert isRemove={true} showModal={showAlert} text={'Deseja remover a Startup?'} setShowModal={setShowAlert} setUpdateList={setUpdateList} id={id}></Alert>
     </div >
   );
 }

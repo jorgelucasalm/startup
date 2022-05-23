@@ -105,7 +105,7 @@ function Home() {
       </Table>
       <ModalFormFunc showModal={showModal} setShowModal={setShowModal} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem} idFunc={id}></ModalFormFunc>
       <ModalDetalhes showModal={showDetails} setShowModal={setShowDetails} setUpdateList={setUpdateList} dados={dados} setDados={setDados} linguagem={linguagem} setLinguagem={setLinguagem}></ModalDetalhes>
-      <Alert isFunc={true} id={ids} showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList}></Alert>
+      <Alert isRemove={true} isFunc={true} id={ids} text={'Deseja remover o funcionario?'} showModal={showAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList}></Alert>
     </div>
   );
 }

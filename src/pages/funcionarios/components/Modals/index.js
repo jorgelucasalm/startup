@@ -3,16 +3,20 @@ import React, { useEffect, useState } from 'react'
 import Forms from '../Forms'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { atualizarFuncionario, criarFuncionario } from '../../../../service/serviceFuncionario'
+import Alert from '../../../../Components/Alert/Modal';
 
 const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados, linguagem, setLinguagem, idFunc }) => {
   const [nome, setNome] = useState('')
   const [genero, setGenero] = useState('')
   const [dataNasc, setDataNasc] = useState('')
   const [email, setEmail] = useState('')
+  const [msgAlert, setMsgAlert] = useState('')
   const [idf, setIdf] = useState()
   const [msg, setMsg] = useState('Adicionar nova Startup')
   const [newLinguagem, setNewLinguagem] = useState([])
   const { id } = useParams()
+
+  const [showAlert, setShowAlert] = useState(false)
 
   const validation = () => {
     if (nome !== '' && genero !== '' && dataNasc !== '' && email !== '') {
@@ -42,14 +46,28 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
         }
         // console.log(linguagem.id_linguagem, linguagem)
         // adicionarLinguagemProgramador(linguagem)
-        criarFuncionario(data)
-        setShowModal(false)
-        setUpdateList(true)
-        setNome('')
-        setGenero('')
-        setDataNasc('')
-        setEmail('')
-        setNewLinguagem([])
+        criarFuncionario(data, (res) => {
+          if (res.status === "ok") {
+            setShowModal(false)
+            setUpdateList(true)
+            setNome('')
+            setGenero('')
+            setDataNasc('')
+            setEmail('')
+            setNewLinguagem([])
+          } else {
+            setShowAlert(true)
+            setShowModal(false)
+            setMsgAlert(res.err)
+          }
+        })
+        // setShowModal(false)
+        // setUpdateList(true)
+        // setNome('')
+        // setGenero('')
+        // setDataNasc('')
+        // setEmail('')
+        // setNewLinguagem([])
       }
     }
   }
@@ -65,7 +83,7 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
     }
   }, [dados])
 
-  return (
+  return (<>
     <Modal show={showModal} onHide={() => {
       setShowModal(false)
       setNome('')
@@ -109,6 +127,8 @@ const ModalFormFunc = ({ showModal, setShowModal, setUpdateList, dados, setDados
         </Button>
       </ModalFooter>
     </Modal>
+    <Alert setModalPrev={setShowModal} isRemove={false} showModal={showAlert} text={msgAlert} setShowModal={setShowAlert} setUpdateList={setUpdateList} id={id}></Alert>
+  </>
   )
 }
 
